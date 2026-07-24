@@ -16,17 +16,16 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --cream:#F7F3E9;
   --cream-2:#F1EADA;
-  --ink:#1C1917;
-  --ink-70:rgba(28,25,23,.66);
-  --ink-45:rgba(28,25,23,.48);
+  --ink:#17160F;
+  --ink-70:#4C4A3F;
+  --ink-45:#7D7A6C;
   --rule:#DDD5C2;
-  --hairline:rgba(28,25,23,.12);
   --forest:#1E4133;
   --terracotta:#BE5A33;
 
@@ -54,7 +53,6 @@ img,svg{max-width:100%}
 h1,h2,h3{margin:0;font-family:var(--display);font-weight:500;letter-spacing:-.015em;line-height:1.06}
 p{margin:0}
 a{color:inherit}
-::selection{background:var(--forest);color:var(--cream)}
 
 .shell{max-width:var(--measure);margin-inline:auto;padding-inline:var(--gutter)}
 .band{padding-block:var(--section-y)}
@@ -73,7 +71,7 @@ a{color:inherit}
 .masthead{
   position:sticky;top:0;z-index:50;
   background:var(--cream);
-  border-bottom:1px solid var(--hairline);
+  border-bottom:1px solid var(--rule);
 }
 .masthead__inner{
   display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
@@ -96,70 +94,35 @@ a{color:inherit}
 section[id]{scroll-margin-top:72px}
 
 /* ---------- hero ---------- */
-.hero{
-  min-height:85vh;
-  padding-top:15vh;
-  padding-bottom:clamp(2.25rem,5vw,3.5rem);
-  border-bottom:1px solid var(--hairline);
-}
+.hero{padding-block:clamp(3rem,8vw,6rem) clamp(2.25rem,5vw,3.5rem)}
 .hero__grid{
   display:grid;gap:clamp(2.25rem,5vw,4rem);
-  grid-template-columns:1fr;align-items:start;
+  grid-template-columns:1fr;align-items:center;
 }
 @media (min-width:920px){
-  .hero__grid{
-    grid-template-columns:repeat(12,minmax(0,1fr));
-    column-gap:clamp(1.5rem,3vw,2.5rem);
-  }
-  .hero__intro{grid-column:1 / 8;min-width:0}
-  .hero__figure{grid-column:8 / 13;min-width:0;align-self:start}
+  .hero__grid{grid-template-columns:minmax(0,1fr) minmax(0,.92fr)}
 }
 .hero h1{
   font-size:clamp(2.5rem,1.3rem + 5.2vw,4.7rem);
-  line-height:1.02;letter-spacing:-.02em;margin:0;
+  max-width:15ch;margin:0;
 }
-.hero h1 .hl-line{display:block}
 .hero h1 em{font-style:italic;color:var(--forest)}
-@media (min-width:1280px){
-  .hero h1{margin-right:-32px}
-}
 .hero__lede{
   margin-top:1.5rem;max-width:46ch;
   font-size:clamp(1.05rem,1rem + .35vw,1.22rem);
   color:var(--ink-70);
 }
-.actions{display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem;margin-top:2.25rem}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.25rem}
 .btn{
   display:inline-block;
   font-family:var(--body);font-size:.95rem;font-weight:500;
-  text-decoration:none;border:1px solid var(--forest);border-radius:0;
-  padding:14px 28px;transition:background .18s;
+  text-decoration:none;border:1px solid var(--forest);
+  padding:.85rem 1.5rem;transition:background .18s,color .18s,transform .18s;
 }
 .btn--solid{background:var(--forest);color:var(--cream)}
 .btn--solid:hover{background:#152F25}
-.hero__textlink{
-  display:inline-flex;align-items:baseline;gap:.4em;
-  font-family:var(--body);font-size:.95rem;font-weight:500;
-  color:var(--ink);text-decoration:none;transition:color .18s;
-}
-.hero__textlink .lbl{
-  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;
-}
-.hero__textlink:hover{color:var(--forest)}
-.btn--solid:focus-visible,.hero__textlink:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-
-/* hero entrance — one orchestrated moment, first load only */
-@keyframes riseIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-html.entrance .hero h1 .hl-line{opacity:0;animation:riseIn .35s ease-out forwards}
-html.entrance .hero h1 .hl-line:nth-child(1){animation-delay:.12s}
-html.entrance .hero h1 .hl-line:nth-child(2){animation-delay:.21s}
-html.entrance .hero__lede{opacity:0;animation:riseIn .35s ease-out .38s forwards}
-html.entrance .hero .actions{opacity:0;animation:riseIn .35s ease-out .38s forwards}
-@media (prefers-reduced-motion:reduce){
-  html.entrance .hero h1 .hl-line,
-  html.entrance .hero__lede,
-  html.entrance .hero .actions{opacity:1;animation:none}
-}
+.btn--ghost{color:var(--forest);background:transparent}
+.btn--ghost:hover{background:rgba(30,65,51,.07)}
 
 .context{
   margin-top:clamp(3rem,7vw,5rem);
@@ -176,12 +139,7 @@ html.entrance .hero .actions{opacity:0;animation:riseIn .35s ease-out .38s forwa
 }
 
 /* ---------- living ledger ---------- */
-.ledger{width:100%;max-width:480px;margin:0 auto}
-.ledger-rule{border-top:1px solid var(--hairline);margin-bottom:1rem}
-.ledger-cap{
-  font-family:var(--mono);font-size:11px;letter-spacing:.04em;
-  color:var(--ink-70);margin-top:.9rem;
-}
+.ledger{width:100%;max-width:480px;margin-inline:auto}
 .ledger-mode{
   font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;
   color:var(--forest);margin:0 0 .75rem;
@@ -303,7 +261,6 @@ html.entrance .hero .actions{opacity:0;animation:riseIn .35s ease-out .38s forwa
   .reveal{opacity:1;transform:none}
 }
 </style>
-<script>if(window.matchMedia&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.className+=' entrance';}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -326,17 +283,16 @@ html.entrance .hero .actions{opacity:0;animation:riseIn .35s ease-out .38s forwa
     <div class="shell">
       <div class="hero__grid">
         <div class="hero__intro">
-          <h1><span class="hl-line">Your group's money,</span><span class="hl-line">run by <em>your</em> group's rules.</span></h1>
+          <h1>Your group's money, run by <em>your group's rules.</em></h1>
           <p class="hero__lede">A shared pool with built-in governance. Members fund it, the group sets the rules, and money moves only when the rules say so: to a member, a vendor, or any cause the group picks.</p>
           <div class="actions">
             <a class="btn btn--solid" href="#contact">Get early access</a>
-            <a class="hero__textlink" href="#how-it-works"><span class="lbl">See how it works</span><span class="arrow" aria-hidden="true">&rarr;</span></a>
+            <a class="btn btn--ghost" href="#how-it-works">See how it works</a>
           </div>
         </div>
 
-        <div class="hero__figure">
-          <figure class="ledger" id="ledger">
-            <div class="ledger-rule" aria-hidden="true"></div>
+        <div class="hero__figure reveal">
+          <div class="ledger" id="ledger">
             <p class="ledger-mode" id="mode" aria-hidden="true">VOTING</p>
             <svg viewBox="0 0 480 250" role="img"
                  aria-label="Diagram of a Village pool: members contribute, the group approves a payout by vote, rotation, or manager, and funds release to a member or vendor.">
@@ -373,12 +329,11 @@ html.entrance .hero .actions{opacity:0;animation:riseIn .35s ease-out .38s forwa
 
               <!-- balance + approval bar -->
               <text class="balance" id="bal" x="240" y="212" text-anchor="middle">$1,050</text>
-              <rect class="bar-track" x="190" y="226" width="100" height="6"></rect>
-              <rect class="bar-fill" id="bar" x="190" y="226" width="100" height="6"></rect>
+              <rect class="bar-track" x="190" y="226" width="100" height="6" rx="3"></rect>
+              <rect class="bar-fill" id="bar" x="190" y="226" width="100" height="6" rx="3"></rect>
             </svg>
             <div class="ledger-strip" id="strip" aria-hidden="true"></div>
-            <figcaption class="ledger-cap">Fig. 1&ensp;One pool. Three ways to govern it.</figcaption>
-          </figure>
+          </div>
         </div>
       </div>
 
