@@ -94,89 +94,95 @@ a{color:inherit}
 section[id]{scroll-margin-top:72px}
 
 /* ---------- hero ---------- */
-.hero{padding-block:clamp(3rem,8vw,6rem) clamp(2.25rem,5vw,3.5rem)}
-.hero__grid{
-  display:grid;gap:clamp(2.25rem,5vw,4rem);
-  grid-template-columns:1fr;align-items:center;
+.hero{
+  position:relative;overflow:hidden;isolation:isolate;
+  background:var(--ink);
+  padding-block:clamp(5rem,12vw,9rem) clamp(4.5rem,10vw,8rem);
 }
-@media (min-width:920px){
-  .hero__grid{grid-template-columns:minmax(0,1fr) minmax(0,.92fr)}
+#hero-particles{position:absolute;inset:0;z-index:0}
+#hero-particles canvas{display:block}
+.hero__scrim{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(102deg,var(--ink) 0%,rgba(23,22,15,.88) 30%,rgba(23,22,15,.42) 60%,rgba(23,22,15,.06) 100%),
+    linear-gradient(to bottom,rgba(23,22,15,0) 58%,var(--cream) 100%);
 }
+.hero__content{position:relative;z-index:2}
 .hero h1{
-  font-size:clamp(2.5rem,1.3rem + 5.2vw,4.7rem);
-  max-width:15ch;margin:0;
+  font-size:clamp(2.65rem,1.4rem + 5.6vw,5.1rem);
+  max-width:16ch;
+  margin:0;
+  color:var(--cream);
 }
-.hero h1 em{font-style:italic;color:var(--forest)}
+.hero h1 em{font-style:italic;color:#E7A977}
 .hero__lede{
-  margin-top:1.5rem;max-width:46ch;
-  font-size:clamp(1.05rem,1rem + .35vw,1.22rem);
-  color:var(--ink-70);
+  margin-top:1.75rem;
+  max-width:52ch;
+  font-size:clamp(1.05rem,1rem + .35vw,1.25rem);
+  color:rgba(247,243,233,.82);
 }
 .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.25rem}
 .btn{
   display:inline-block;
   font-family:var(--body);font-size:.95rem;font-weight:500;
-  text-decoration:none;border:1px solid var(--forest);
+  text-decoration:none;border:1px solid var(--cream);
   padding:.85rem 1.5rem;transition:background .18s,color .18s,transform .18s;
 }
-.btn--solid{background:var(--forest);color:var(--cream)}
-.btn--solid:hover{background:#152F25}
-.btn--ghost{color:var(--forest);background:transparent}
-.btn--ghost:hover{background:rgba(30,65,51,.07)}
+.btn--solid{background:var(--terracotta);border-color:var(--terracotta);color:var(--cream)}
+.btn--solid:hover{background:#A94D2A;border-color:#A94D2A}
+.btn--ghost{color:var(--cream);background:transparent;border-color:rgba(247,243,233,.55)}
+.btn--ghost:hover{background:rgba(247,243,233,.09)}
 
-.context{
-  margin-top:clamp(3rem,7vw,5rem);
-  padding-top:2rem;
-  border-top:1px solid var(--rule);
-}
-.context p{
+/* ---------- intro ---------- */
+.intro{padding-block:clamp(3.5rem,8vw,6rem)}
+.intro__text{
   color:var(--ink-70);
-  max-width:78ch;
-  font-size:1rem;
+  max-width:80ch;
+  font-size:clamp(1.05rem,1rem + .3vw,1.2rem);
 }
 @media (min-width:900px){
-  .context p{columns:2;column-gap:3.5rem}
+  .intro__text{columns:2;column-gap:3.5rem}
 }
-
-/* ---------- living ledger ---------- */
-.ledger{width:100%;max-width:480px;margin-inline:auto}
-.ledger-mode{
-  font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;
-  color:var(--forest);margin:0 0 .75rem;
-}
-.ledger svg{display:block;width:100%;height:auto;overflow:visible}
-.ledger svg text{font-family:var(--mono)}
-.ledger .dot{fill:none;stroke:var(--ink);stroke-width:1.25;transition:fill .2s,stroke .2s}
-.ledger .dot.is-on{fill:var(--forest);stroke:var(--forest)}
-.ledger .pool{fill:none;stroke:var(--forest);stroke-width:1.5}
-.ledger .feed{fill:none;stroke:var(--ink-45);stroke-width:1;opacity:0}
-.ledger .release{fill:none;stroke:var(--terracotta);stroke-width:1.25;opacity:0}
-.ledger .marker{fill:var(--terracotta);opacity:0;transition:opacity .2s}
-.ledger .ring{fill:none;stroke:var(--forest);stroke-width:1.25;opacity:0;transition:opacity .2s}
-.ledger #rot{stroke:var(--terracotta)}
-.ledger .vendor{opacity:0;transition:opacity .3s}
-.ledger .vendor rect{fill:none;stroke:var(--ink);stroke-width:1.25}
-.ledger .vendor text{fill:var(--ink-45);letter-spacing:.08em}
-.ledger .balance{fill:var(--forest);font-family:var(--mono);font-size:17px;font-weight:500}
-.ledger .bar-track{fill:none;stroke:var(--rule);stroke-width:1}
-.ledger .bar-fill{fill:var(--forest);transform-box:fill-box;transform-origin:left center;transform:scaleX(0);transition:transform .3s ease-out}
-@keyframes balreset{0%{opacity:.12}100%{opacity:1}}
-.ledger .balance.bal-reset{animation:balreset .6s ease-out}
-
-.ledger-strip{
-  margin-top:1.1rem;padding-top:.8rem;border-top:1px solid var(--rule);
-  display:flex;flex-direction:column;gap:.42rem;min-height:4.3rem;
-}
-.lrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.03em;color:var(--ink-70)}
-@keyframes lrowin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.lrow.enter{animation:lrowin .2s ease-out}
 
 /* ---------- how it works ---------- */
 .works{background:var(--cream-2);border-block:1px solid var(--rule)}
-.works__head{max-width:32ch}
+.works__head{max-width:30ch}
 .works h2,.next h2,.contact h2{font-size:clamp(2rem,1.4rem + 2.4vw,3rem)}
+.works__grid{
+  margin-top:3rem;
+  display:grid;gap:clamp(2.5rem,5vw,4rem);
+  grid-template-columns:1fr;
+  align-items:start;
+}
+@media (min-width:960px){
+  .works__grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
+  .diagram-wrap{position:sticky;top:96px}
+}
 
-.steps{list-style:none;margin:3rem 0 0;padding:0;counter-reset:step;max-width:760px}
+.diagram{width:100%;height:auto;display:block}
+.diagram text{font-family:var(--mono);fill:var(--ink-45);letter-spacing:.1em;font-size:11px}
+.diagram .dg-line{fill:none;stroke:var(--rule);stroke-width:1.25}
+.diagram .dg-track{fill:none;stroke:var(--rule);stroke-width:1.25}
+.diagram .dg-knob{fill:var(--cream);stroke:var(--rule);stroke-width:1.25}
+.diagram .dg-row{cursor:pointer}
+.diagram .dg-row .dg-hit{fill:transparent}
+.diagram .dg-row:hover text{fill:var(--ink-70)}
+.diagram .dg-row.is-on text{fill:var(--forest)}
+.diagram .dg-row.is-on .dg-line,
+.diagram .dg-row.is-on .dg-track{stroke:var(--forest)}
+.diagram .dg-row.is-on .dg-knob{fill:var(--terracotta);stroke:var(--terracotta)}
+.diagram .dg-row.is-on .dg-knob{transform:translateX(22px)}
+.diagram .dg-knob{transition:transform .22s ease,fill .22s,stroke .22s}
+.diagram .dg-ledger{fill:none;stroke:var(--forest);stroke-width:1.25}
+.diagram .dg-entry{stroke:var(--rule);stroke-width:1.25}
+.diagram .dg-ledger-label{fill:var(--forest);font-weight:500}
+.diagram .dg-out{fill:var(--terracotta)}
+.diagram-note{
+  font-family:var(--body);font-size:.9rem;
+  color:var(--ink-45);margin-top:1rem;
+}
+
+.steps{list-style:none;margin:0;padding:0;counter-reset:step}
 .steps li{
   display:grid;grid-template-columns:auto 1fr;gap:1.25rem;
   padding-block:1.6rem;border-top:1px solid var(--rule);
@@ -280,66 +286,22 @@ section[id]{scroll-margin-top:72px}
 
   <!-- Hero -->
   <section id="top" class="hero">
+    <div id="hero-particles" aria-hidden="true"></div>
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <div class="shell hero__content">
+      <h1>Your group's money, run by <em>your group's rules.</em></h1>
+      <p class="hero__lede">A shared pool with built-in governance. Members fund it, the group sets the rules, and money moves only when the rules say so: to a member, a vendor, or any cause the group picks.</p>
+      <div class="actions">
+        <a class="btn btn--solid" href="#contact">Get early access</a>
+        <a class="btn btn--ghost" href="#how-it-works">See how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="band intro reveal">
     <div class="shell">
-      <div class="hero__grid">
-        <div class="hero__intro">
-          <h1>Your group's money, run by <em>your group's rules.</em></h1>
-          <p class="hero__lede">A shared pool with built-in governance. Members fund it, the group sets the rules, and money moves only when the rules say so: to a member, a vendor, or any cause the group picks.</p>
-          <div class="actions">
-            <a class="btn btn--solid" href="#contact">Get early access</a>
-            <a class="btn btn--ghost" href="#how-it-works">See how it works</a>
-          </div>
-        </div>
-
-        <div class="hero__figure reveal">
-          <div class="ledger" id="ledger">
-            <p class="ledger-mode" id="mode" aria-hidden="true">VOTING</p>
-            <svg viewBox="0 0 480 250" role="img"
-                 aria-label="Diagram of a Village pool: members contribute, the group approves a payout by vote, rotation, or manager, and funds release to a member or vendor.">
-              <!-- feeds (drawn under dots) -->
-              <line class="feed" id="f2" x1="157" y1="77" x2="240" y2="160"></line>
-              <line class="feed" id="f5" x1="323" y1="77" x2="240" y2="160"></line>
-              <line class="feed" id="f3" x1="210" y1="46" x2="240" y2="160"></line>
-              <!-- releases -->
-              <line class="release" id="rA" x1="240" y1="160" x2="270" y2="46"></line>
-              <line class="release" id="rB" x1="240" y1="160" x2="210" y2="46"></line>
-              <line class="release" id="rC" x1="240" y1="160" x2="347" y2="160"></line>
-
-              <!-- pool -->
-              <circle class="pool" cx="240" cy="160" r="34"></circle>
-              <circle class="marker" id="prop" cx="240" cy="126" r="5"></circle>
-
-              <!-- highlight rings -->
-              <circle class="ring" id="mgr" cx="126" cy="130" r="13"></circle>
-              <circle class="ring" id="rot" cx="210" cy="46" r="13"></circle>
-
-              <!-- member dots -->
-              <circle class="dot" id="d1" cx="126" cy="130" r="7"></circle>
-              <circle class="dot" id="d2" cx="157" cy="77" r="7"></circle>
-              <circle class="dot" id="d3" cx="210" cy="46" r="7"></circle>
-              <circle class="dot" id="d4" cx="270" cy="46" r="7"></circle>
-              <circle class="dot" id="d5" cx="323" cy="77" r="7"></circle>
-              <circle class="dot" id="d6" cx="354" cy="130" r="7"></circle>
-
-              <!-- vendor -->
-              <g class="vendor" id="vendor">
-                <rect x="330" y="143" width="34" height="34"></rect>
-                <text x="347" y="192" text-anchor="middle" font-size="9">VENDOR</text>
-              </g>
-
-              <!-- balance + approval bar -->
-              <text class="balance" id="bal" x="240" y="212" text-anchor="middle">$1,050</text>
-              <rect class="bar-track" x="190" y="226" width="100" height="6" rx="3"></rect>
-              <rect class="bar-fill" id="bar" x="190" y="226" width="100" height="6" rx="3"></rect>
-            </svg>
-            <div class="ledger-strip" id="strip" aria-hidden="true"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="context reveal">
-        <p>Group money is everywhere: family pools, savings circles, giving circles, club treasuries, mutual aid funds. Today it runs on one person's personal account, a group chat, and trust. Village replaces that with infrastructure: a shared balance, explicit rules, and a permanent record of every contribution, decision, and payout.</p>
-      </div>
+      <p class="intro__text">Group money is everywhere: family pools, savings circles, giving circles, club treasuries, mutual aid funds. Today it runs on one person's personal account, a group chat, and trust. Village replaces that with infrastructure: a shared balance, explicit rules, and a permanent record of every contribution, decision, and payout.</p>
     </div>
   </section>
 
@@ -350,32 +312,80 @@ section[id]{scroll-margin-top:72px}
         <h2>How Village works</h2>
       </div>
 
-      <ol class="steps reveal">
-        <li>
-          <div>
-            <h3>Create a pool.</h3>
-            <p>Set contribution amount and cadence, who can propose a payout, how the group decides, and where money can go.</p>
-          </div>
-        </li>
-        <li>
-          <div>
-            <h3>Pick a governance mode.</h3>
-            <p>Voting: payouts release when the group approves them. Rotating: the pool pays each member in turn on a fixed schedule. Manager: a designated admin approves releases within the group's rules.</p>
-          </div>
-        </li>
-        <li>
-          <div>
-            <h3>Fund it.</h3>
-            <p>Members link a bank account and contribute on schedule. Pooled balances sit at a regulated U.S. partner bank. Village runs the ledger and never holds member funds.</p>
-          </div>
-        </li>
-        <li>
-          <div>
-            <h3>Move money by the rules.</h3>
-            <p>An approved vote, a rotation turn, or a manager approval releases funds to the approved recipient: a member, a vendor, a nonprofit, or any destination the group named. Every contribution, vote, and payout is recorded and visible to every member.</p>
-          </div>
-        </li>
-      </ol>
+      <div class="works__grid">
+        <div class="diagram-wrap reveal">
+          <svg class="diagram" viewBox="0 0 540 400" role="radiogroup" aria-label="Governance modes feeding one shared ledger" id="dg">
+
+            <!-- toggles -->
+            <g class="dg-row is-on" data-mode="voting" role="radio" aria-checked="true" tabindex="0" aria-label="Voting mode">
+              <rect class="dg-hit" x="0" y="34" width="230" height="52"></rect>
+              <rect class="dg-track" x="4" y="49" width="44" height="22" rx="11"></rect>
+              <circle class="dg-knob" cx="15" cy="60" r="7"></circle>
+              <text x="62" y="64">VOTING</text>
+              <path class="dg-line" d="M170 60 H208 Q226 60 226 78 V200"></path>
+            </g>
+
+            <g class="dg-row" data-mode="rotating" role="radio" aria-checked="false" tabindex="-1" aria-label="Rotating mode">
+              <rect class="dg-hit" x="0" y="174" width="230" height="52"></rect>
+              <rect class="dg-track" x="4" y="189" width="44" height="22" rx="11"></rect>
+              <circle class="dg-knob" cx="15" cy="200" r="7"></circle>
+              <text x="62" y="204">ROTATING</text>
+              <path class="dg-line" d="M170 200 H226"></path>
+            </g>
+
+            <g class="dg-row" data-mode="manager" role="radio" aria-checked="false" tabindex="-1" aria-label="Manager mode">
+              <rect class="dg-hit" x="0" y="314" width="230" height="52"></rect>
+              <rect class="dg-track" x="4" y="329" width="44" height="22" rx="11"></rect>
+              <circle class="dg-knob" cx="15" cy="340" r="7"></circle>
+              <text x="62" y="344">MANAGER</text>
+              <path class="dg-line" d="M170 340 H208 Q226 340 226 322 V200"></path>
+            </g>
+
+            <!-- junction into ledger -->
+            <path class="dg-line" d="M226 200 H286" style="stroke:var(--forest)"></path>
+
+            <!-- ledger -->
+            <rect class="dg-ledger" x="286" y="150" width="200" height="100"></rect>
+            <text class="dg-ledger-label" x="304" y="180">SHARED LEDGER</text>
+            <line class="dg-entry" x1="304" y1="202" x2="468" y2="202"></line>
+            <line class="dg-entry" x1="304" y1="218" x2="428" y2="218"></line>
+            <line class="dg-entry" x1="304" y1="234" x2="452" y2="234"></line>
+
+            <!-- payout -->
+            <path class="dg-line" d="M386 250 V320" style="stroke:var(--terracotta)"></path>
+            <path class="dg-out" d="M386 332 l-6 -12 h12 z"></path>
+            <text x="286" y="356" style="fill:var(--terracotta)">APPROVED PAYOUT</text>
+          </svg>
+          <p class="diagram-note">Pick a mode. One ledger, either way.</p>
+        </div>
+
+        <ol class="steps reveal">
+          <li>
+            <div>
+              <h3>Create a pool.</h3>
+              <p>Set contribution amount and cadence, who can propose a payout, how the group decides, and where money can go.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>Pick a governance mode.</h3>
+              <p>Voting: payouts release when the group approves them. Rotating: the pool pays each member in turn on a fixed schedule. Manager: a designated admin approves releases within the group's rules.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>Fund it.</h3>
+              <p>Members link a bank account and contribute on schedule. Pooled balances sit at a regulated U.S. partner bank. Village runs the ledger and never holds member funds.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>Move money by the rules.</h3>
+              <p>An approved vote, a rotation turn, or a manager approval releases funds to the approved recipient: a member, a vendor, a nonprofit, or any destination the group named. Every contribution, vote, and payout is recorded and visible to every member.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
     </div>
   </section>
 
@@ -405,6 +415,7 @@ section[id]{scroll-margin-top:72px}
     <div class="shell contact__grid">
       <div class="reveal">
         <h2>Get in touch</h2>
+        
         <p class="contact__mail"><a href="mailto:hector.miranda@yale.edu">hector.miranda@yale.edu</a></p>
       </div>
 
@@ -468,168 +479,88 @@ section[id]{scroll-margin-top:72px}
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/preset-sea-anemone@4.3.2/tsparticles.preset.seaAnemone.bundle.min.js" integrity="sha256-8S1NhbajY42KE5tdrsnoS7wM4G6cIyL2kxST9D0sLlQ=" crossorigin="anonymous"></script>
 <script>
 (function () {
-  /* ---------- The living ledger ---------- */
-  var ledger = document.getElementById('ledger');
-  if (ledger) {
-    var $ = function (id) { return document.getElementById(id); };
-    var modeEl = $('mode');
-    var strip = $('strip');
-    var bal = $('bal');
-    var barFill = $('bar');
-    var prop = $('prop'), mgr = $('mgr'), rot = $('rot'), vendor = $('vendor');
-    var dots = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6'].map($);
-    var lines = ['f2', 'f5', 'f3', 'rA', 'rB', 'rC'].map($);
-    var f2 = $('f2'), f5 = $('f5'), f3 = $('f3'), rA = $('rA'), rB = $('rB'), rC = $('rC');
+  /* Hero: sea-anemone particles (tsParticles preset), retuned to ink + terracotta */
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !window.tsParticles || typeof window.loadSeaAnemonePreset !== 'function') return;
 
-    lines.forEach(function (l) {
-      var L = l.getTotalLength();
-      l.__len = L;
-      l.style.strokeDasharray = L;
-      l.style.strokeDashoffset = L;
+  (async function () {
+    await loadSeaAnemonePreset(tsParticles);
+    await tsParticles.load({
+      id: 'hero-particles',
+      options: {
+        preset: 'seaAnemone',
+        fullScreen: { enable: false },
+        fpsLimit: 60,
+        background: { color: '#17160F' },
+        particles: { color: { value: '#BE5A33' } },
+        trail: { enable: true, length: 30, fill: { color: '#17160F' } },
+        emitters: [
+          {
+            direction: 'none',
+            position: { x: 74, y: 40 },
+            rate: { quantity: 10, delay: 0.3 },
+            size: { width: 0, height: 0, mode: 'precise' },
+            spawn: {
+              fill: {
+                color: {
+                  value: '#C6603A',
+                  animation: {
+                    h: { enable: false },
+                    l: { enable: true, offset: { min: 44, max: 84 }, speed: 0, sync: false }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
     });
+  })();
+})();
+</script>
+<script>
+(function () {
+  /* Governance toggle: radio behavior, mouse + keyboard */
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#dg .dg-row'));
 
-    function setMode(m) { modeEl.textContent = m; }
-    function setBalance(v) { bal.textContent = v; }
-    function resetBalance(v) {
-      bal.textContent = v;
-      bal.classList.remove('bal-reset');
-      void bal.getBoundingClientRect();
-      bal.classList.add('bal-reset');
-    }
-    function bar(n) { barFill.style.transform = 'scaleX(' + (n / 6) + ')'; }
-    function vote(n) { dots[n - 1].classList.add('is-on'); }
-    function show(el) { el.style.opacity = 1; }
-
-    function resetLine(el) {
-      el.style.transition = 'none';
-      el.style.opacity = 0;
-      el.style.strokeDashoffset = el.__len;
-    }
-    function travel(el) {
-      el.style.transition = 'none';
-      el.style.strokeDashoffset = el.__len;
-      el.style.opacity = 1;
-      el.getBoundingClientRect();
-      el.style.transition = 'stroke-dashoffset .4s ease-out';
-      el.style.strokeDashoffset = 0;
-    }
-
-    function cycleReset() {
-      dots.forEach(function (d) { d.classList.remove('is-on'); });
-      bar(0);
-      [prop, mgr, rot].forEach(function (e) { e.style.opacity = 0; });
-      vendor.style.opacity = 0;
-      lines.forEach(resetLine);
-    }
-
-    function addRow(text) {
-      var r = document.createElement('div');
-      r.className = 'lrow enter';
-      r.textContent = text;
-      strip.insertBefore(r, strip.firstChild);
-      while (strip.children.length > 3) strip.removeChild(strip.lastChild);
-    }
-
-    /* --- deterministic 30s timeline: three 10s cycles --- */
-    var LOOP = 30000;
-    var events = [];
-    function E(t, fn) { events.push({ t: t, fn: fn }); }
-
-    function contributions(O) {
-      E(O + 800, function () { travel(f2); addRow('MEMBER 2 CONTRIBUTED $50'); });
-      E(O + 1200, function () { setBalance('$1,100'); });
-      E(O + 2000, function () { travel(f5); });
-      E(O + 2400, function () { setBalance('$1,150'); });
-      E(O + 3200, function () { travel(f3); });
-      E(O + 3600, function () { setBalance('$1,200'); });
-    }
-
-    // Cycle A — VOTING
-    E(0, function () { cycleReset(); setMode('VOTING'); resetBalance('$1,050'); });
-    contributions(0);
-    E(4000, function () { show(prop); addRow('PROPOSAL OPENED $600'); });
-    E(4600, function () { vote(1); bar(1); });
-    E(5200, function () { vote(2); bar(2); });
-    E(5800, function () { vote(3); bar(3); });
-    E(6400, function () { vote(4); bar(4); });
-    E(7000, function () { vote(5); bar(5); addRow('APPROVED 5/6'); });
-    E(7600, function () { travel(rA); addRow('PAYOUT $600 TO MEMBER 4'); });
-    E(8000, function () { setBalance('$600'); });
-
-    // Cycle B — ROTATING
-    E(10000, function () { cycleReset(); setMode('ROTATING'); resetBalance('$1,050'); });
-    contributions(10000);
-    E(14200, function () { show(rot); addRow('ROTATION TURN 3 OF 6'); });
-    E(15000, function () { travel(rB); addRow('PAYOUT $600 TO MEMBER 3'); });
-    E(15400, function () { setBalance('$600'); });
-
-    // Cycle C — MANAGER
-    E(20000, function () { cycleReset(); setMode('MANAGER'); resetBalance('$1,050'); });
-    contributions(20000);
-    E(24000, function () { show(prop); show(mgr); });
-    E(24600, function () { vote(1); addRow('MANAGER APPROVED'); });
-    E(25200, function () { show(vendor); });
-    E(25600, function () { travel(rC); addRow('PAYOUT $600 TO VENDOR'); });
-    E(26000, function () { setBalance('$600'); });
-
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (reduced) {
-      // Static end state of Cycle A.
-      setMode('VOTING');
-      [1, 2, 3, 4, 5].forEach(vote);
-      barFill.style.transform = 'scaleX(' + (5 / 6) + ')';
-      setBalance('$600');
-      addRow('PAYOUT $600 TO MEMBER 4');
-    } else {
-      var clock = 0, idx = 0, lastTs = 0, visible = true;
-
-      if ('IntersectionObserver' in window) {
-        var io = new IntersectionObserver(function (entries) {
-          visible = entries[0].isIntersecting;
-        }, { threshold: 0.15 });
-        io.observe(ledger);
-      }
-
-      function fire() {
-        var guard = 0;
-        while (guard++ < 500) {
-          while (idx < events.length && events[idx].t <= clock) { events[idx].fn(); idx++; }
-          if (clock >= LOOP) { clock -= LOOP; idx = 0; } else break;
-        }
-      }
-
-      function frame(now) {
-        if (!lastTs) lastTs = now;
-        var dt = now - lastTs;
-        lastTs = now;
-        if (visible && !document.hidden && dt < 500) {
-          clock += dt;
-          fire();
-        }
-        requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    }
+  function select(row, focus) {
+    rows.forEach(function (r) {
+      var on = r === row;
+      r.classList.toggle('is-on', on);
+      r.setAttribute('aria-checked', on ? 'true' : 'false');
+      r.setAttribute('tabindex', on ? '0' : '-1');
+    });
+    if (focus) row.focus();
   }
 
-  /* ---------- Scroll reveal ---------- */
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  rows.forEach(function (row, i) {
+    row.addEventListener('click', function () { select(row, false); });
+    row.addEventListener('keydown', function (e) {
+      var k = e.key;
+      if (k === ' ' || k === 'Enter') { e.preventDefault(); select(row, true); return; }
+      if (k === 'ArrowDown' || k === 'ArrowRight') { e.preventDefault(); select(rows[(i + 1) % rows.length], true); }
+      if (k === 'ArrowUp' || k === 'ArrowLeft') { e.preventDefault(); select(rows[(i - 1 + rows.length) % rows.length], true); }
+    });
+  });
+
+  /* Scroll reveal */
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var targets = document.querySelectorAll('.reveal');
-  if (reducedMotion || !('IntersectionObserver' in window)) {
+  if (reduced || !('IntersectionObserver' in window)) {
     targets.forEach(function (el) { el.classList.add('is-in'); });
   } else {
-    var ro = new IntersectionObserver(function (entries) {
+    var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) { entry.target.classList.add('is-in'); ro.unobserve(entry.target); }
+        if (entry.isIntersecting) { entry.target.classList.add('is-in'); io.unobserve(entry.target); }
       });
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
-    targets.forEach(function (el) { ro.observe(el); });
+    targets.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---------- Netlify form: submit in place ---------- */
+  /* Netlify form: submit in place, show success without leaving the page */
   var form = document.getElementById('contact-form');
   var msg = document.getElementById('form-msg');
   if (!form) return;
