@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Village | Governed group-money infrastructure</title>
+<meta name="description" content="Pool money with your group, set the rules, and move funds only when the rules say so. Shared balances with built-in governance for self-organized groups.">
+<meta name="theme-color" content="#F7F3E9">
+<link rel="canonical" href="https://villagefinance.netlify.app/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://villagefinance.netlify.app/">
+<meta property="og:title" content="Village | Governed group-money infrastructure">
+<meta property="og:description" content="Pool money with your group, set the rules, and move funds only when the rules say so. Shared balances with built-in governance for self-organized groups.">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cream:#F7F3E9;
+  --cream-2:#F1EADA;
+  --ink:#17160F;
+  --ink-70:#4C4A3F;
+  --ink-45:#7D7A6C;
+  --rule:#DDD5C2;
+  --forest:#1E4133;
+  --terracotta:#BE5A33;
+
+  --display:"Playfair Display",Georgia,serif;
+  --body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"DM Mono",ui-monospace,"SFMono-Regular",monospace;
+
+  --gutter:clamp(1.25rem,5vw,4.5rem);
+  --measure:1220px;
+  --section-y:clamp(4.5rem,10vw,9rem);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:clamp(1rem,.97rem + .18vw,1.0625rem);
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{max-width:100%}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:500;letter-spacing:-.015em;line-height:1.06}
+p{margin:0}
+a{color:inherit}
+
+.shell{max-width:var(--measure);margin-inline:auto;padding-inline:var(--gutter)}
+.band{padding-block:var(--section-y)}
+.rule{border:0;border-top:1px solid var(--rule);margin:0}
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.7rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-45);
+  margin:0;
+}
+
+.skip{
+  position:absolute;left:-9999px;top:0;
+  background:var(--forest);color:var(--cream);
+  padding:.75rem 1rem;font-family:var(--mono);font-size:.8rem;z-index:99;
+}
+.skip:focus{left:0}
+
+:focus-visible{outline:2px solid var(--terracotta);outline-offset:3px}
+
+/* ---------- header ---------- */
+.masthead{
+  position:sticky;top:0;z-index:50;
+  background:var(--cream);
+  border-bottom:1px solid var(--rule);
+}
+.masthead__inner{
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+  min-height:64px;
+}
+.wordmark{
+  font-family:var(--display);font-size:1.4rem;font-weight:500;
+  letter-spacing:-.02em;text-decoration:none;
+}
+.nav{display:flex;gap:clamp(1rem,2.4vw,2.25rem);align-items:center}
+.nav a{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-70);text-decoration:none;padding-block:.4rem;
+  border-bottom:1px solid transparent;transition:color .18s,border-color .18s;
+}
+.nav a:hover{color:var(--forest);border-bottom-color:var(--terracotta)}
+.nav__contact{color:var(--forest) !important}
+@media (max-width:640px){.nav a:not(.nav__contact){display:none}}
+
+section[id]{scroll-margin-top:72px}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(3.5rem,9vw,7.5rem) clamp(2.5rem,6vw,4.5rem)}
+.hero h1{
+  font-size:clamp(2.65rem,1.4rem + 5.6vw,5.1rem);
+  max-width:16ch;
+  margin:1.5rem 0 0;
+}
+.hero h1 em{font-style:italic;color:var(--forest)}
+.hero__lede{
+  margin-top:1.75rem;
+  max-width:52ch;
+  font-size:clamp(1.05rem,1rem + .35vw,1.25rem);
+  color:var(--ink-70);
+}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.25rem}
+.btn{
+  display:inline-block;
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  text-decoration:none;border:1px solid var(--forest);
+  padding:.95rem 1.6rem;transition:background .18s,color .18s,transform .18s;
+}
+.btn--solid{background:var(--forest);color:var(--cream)}
+.btn--solid:hover{background:#152F25}
+.btn--ghost{color:var(--forest);background:transparent}
+.btn--ghost:hover{background:rgba(30,65,51,.07)}
+
+.context{
+  margin-top:clamp(3rem,7vw,5rem);
+  padding-top:2rem;
+  border-top:1px solid var(--rule);
+}
+.context p{
+  color:var(--ink-70);
+  max-width:78ch;
+  font-size:1rem;
+}
+@media (min-width:900px){
+  .context p{columns:2;column-gap:3.5rem}
+}
+
+/* ---------- how it works ---------- */
+.works{background:var(--cream-2);border-block:1px solid var(--rule)}
+.works__head{max-width:30ch}
+.works h2,.next h2,.contact h2{font-size:clamp(2rem,1.4rem + 2.4vw,3rem)}
+.works__grid{
+  margin-top:3rem;
+  display:grid;gap:clamp(2.5rem,5vw,4rem);
+  grid-template-columns:1fr;
+  align-items:start;
+}
+@media (min-width:960px){
+  .works__grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
+  .diagram-wrap{position:sticky;top:96px}
+}
+
+.diagram{width:100%;height:auto;display:block}
+.diagram text{font-family:var(--mono);fill:var(--ink-45);letter-spacing:.1em;font-size:11px}
+.diagram .dg-line{fill:none;stroke:var(--rule);stroke-width:1.25}
+.diagram .dg-track{fill:none;stroke:var(--rule);stroke-width:1.25}
+.diagram .dg-knob{fill:var(--cream);stroke:var(--rule);stroke-width:1.25}
+.diagram .dg-row{cursor:pointer}
+.diagram .dg-row .dg-hit{fill:transparent}
+.diagram .dg-row:hover text{fill:var(--ink-70)}
+.diagram .dg-row.is-on text{fill:var(--forest)}
+.diagram .dg-row.is-on .dg-line,
+.diagram .dg-row.is-on .dg-track{stroke:var(--forest)}
+.diagram .dg-row.is-on .dg-knob{fill:var(--terracotta);stroke:var(--terracotta)}
+.diagram .dg-row.is-on .dg-knob{transform:translateX(22px)}
+.diagram .dg-knob{transition:transform .22s ease,fill .22s,stroke .22s}
+.diagram .dg-ledger{fill:none;stroke:var(--forest);stroke-width:1.25}
+.diagram .dg-entry{stroke:var(--rule);stroke-width:1.25}
+.diagram .dg-ledger-label{fill:var(--forest);font-weight:500}
+.diagram .dg-out{fill:var(--terracotta)}
+.diagram-note{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-45);margin-top:1rem;
+}
+
+.steps{list-style:none;margin:0;padding:0;counter-reset:step}
+.steps li{
+  display:grid;grid-template-columns:auto 1fr;gap:1.25rem;
+  padding-block:1.6rem;border-top:1px solid var(--rule);
+}
+.steps li:last-child{border-bottom:1px solid var(--rule)}
+.steps li::before{
+  counter-increment:step;content:counter(step,decimal-leading-zero);
+  font-family:var(--mono);font-size:.75rem;color:var(--terracotta);
+  letter-spacing:.08em;padding-top:.45rem;
+}
+.steps h3{font-size:1.3rem;margin-bottom:.5rem}
+.steps p{color:var(--ink-70);font-size:1rem}
+
+/* ---------- what's next ---------- */
+.next__list{margin-top:3rem;border-top:1px solid var(--rule)}
+.next__item{
+  display:grid;gap:.6rem 3rem;
+  grid-template-columns:1fr;
+  padding-block:1.75rem;border-bottom:1px solid var(--rule);
+}
+@media (min-width:800px){
+  .next__item{grid-template-columns:14rem 1fr;align-items:baseline}
+}
+.next__label{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--forest);
+}
+.next__item p{color:var(--ink-70);max-width:62ch}
+
+/* ---------- contact ---------- */
+.contact{background:var(--cream-2);border-block:1px solid var(--rule)}
+.contact__grid{display:grid;gap:clamp(2.5rem,5vw,4.5rem);grid-template-columns:1fr}
+@media (min-width:880px){.contact__grid{grid-template-columns:minmax(0,.85fr) minmax(0,1fr)}}
+.contact__mail{margin-top:1.75rem;font-family:var(--mono);font-size:.85rem}
+.contact__mail a{color:var(--forest);text-underline-offset:4px}
+
+.field{display:block;margin-bottom:1.5rem}
+.field span{
+  display:block;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-45);margin-bottom:.5rem;
+}
+.field input,.field select,.field textarea{
+  width:100%;font-family:var(--body);font-size:1rem;color:var(--ink);
+  background:var(--cream);border:1px solid var(--rule);border-radius:0;
+  padding:.85rem .95rem;transition:border-color .18s;
+}
+.field textarea{min-height:7rem;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--forest)}
+.field select{appearance:none;background-image:none}
+.hp{position:absolute;left:-9999px}
+.btn-submit{
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--forest);color:var(--cream);border:1px solid var(--forest);
+  padding:.95rem 2.2rem;cursor:pointer;transition:background .18s;
+}
+.btn-submit:hover{background:#152F25}
+.btn-submit[disabled]{opacity:.55;cursor:progress}
+.form-msg{
+  margin-top:1.25rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;
+  color:var(--forest);
+}
+.form-msg[data-state="error"]{color:var(--terracotta)}
+
+/* ---------- footer ---------- */
+.foot{padding-block:2.5rem}
+.foot__inner{
+  display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;justify-content:space-between;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-45);
+}
+.foot__links{display:flex;flex-wrap:wrap;gap:1.25rem}
+.foot a{text-decoration:none;color:var(--ink-45)}
+.foot a:hover{color:var(--forest)}
+
+/* ---------- motion ---------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.is-in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="shell masthead__inner">
+    <a class="wordmark" href="#top">Village</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#how-it-works">How it works</a>
+      <a href="#whats-next">What's next</a>
+      <a class="nav__contact" href="#contact">Get in touch</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <section id="top" class="hero">
+    <div class="shell">
+      <p class="eyebrow">Governed group-money infrastructure</p>
+      <h1>Your group's money, run by <em>your group's rules.</em></h1>
+      <p class="hero__lede">A shared pool with built-in governance. Members fund it, the group sets the rules, and money moves only when the rules say so: to a member, a vendor, or any cause the group picks.</p>
+      <div class="actions">
+        <a class="btn btn--solid" href="#contact">Get early access</a>
+        <a class="btn btn--ghost" href="#how-it-works">See how it works</a>
+      </div>
+      <div class="context reveal">
+        <p>Group money is everywhere: family pools, savings circles, giving circles, club treasuries, mutual aid funds. Today it runs on one person's personal account, a group chat, and trust. Village replaces that with infrastructure: a shared balance, explicit rules, and a permanent record of every contribution, decision, and payout.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="band works">
+    <div class="shell">
+      <div class="works__head reveal">
+        <h2>How Village works</h2>
+      </div>
+
+      <div class="works__grid">
+        <div class="diagram-wrap reveal">
+          <svg class="diagram" viewBox="0 0 540 400" role="radiogroup" aria-label="Governance modes feeding one shared ledger" id="dg">
+
+            <!-- toggles -->
+            <g class="dg-row is-on" data-mode="voting" role="radio" aria-checked="true" tabindex="0" aria-label="Voting mode">
+              <rect class="dg-hit" x="0" y="34" width="230" height="52"></rect>
+              <rect class="dg-track" x="4" y="49" width="44" height="22" rx="11"></rect>
+              <circle class="dg-knob" cx="15" cy="60" r="7"></circle>
+              <text x="62" y="64">VOTING</text>
+              <path class="dg-line" d="M170 60 H208 Q226 60 226 78 V200"></path>
+            </g>
+
+            <g class="dg-row" data-mode="rotating" role="radio" aria-checked="false" tabindex="-1" aria-label="Rotating mode">
+              <rect class="dg-hit" x="0" y="174" width="230" height="52"></rect>
+              <rect class="dg-track" x="4" y="189" width="44" height="22" rx="11"></rect>
+              <circle class="dg-knob" cx="15" cy="200" r="7"></circle>
+              <text x="62" y="204">ROTATING</text>
+              <path class="dg-line" d="M170 200 H226"></path>
+            </g>
+
+            <g class="dg-row" data-mode="manager" role="radio" aria-checked="false" tabindex="-1" aria-label="Manager mode">
+              <rect class="dg-hit" x="0" y="314" width="230" height="52"></rect>
+              <rect class="dg-track" x="4" y="329" width="44" height="22" rx="11"></rect>
+              <circle class="dg-knob" cx="15" cy="340" r="7"></circle>
+              <text x="62" y="344">MANAGER</text>
+              <path class="dg-line" d="M170 340 H208 Q226 340 226 322 V200"></path>
+            </g>
+
+            <!-- junction into ledger -->
+            <path class="dg-line" d="M226 200 H286" style="stroke:var(--forest)"></path>
+
+            <!-- ledger -->
+            <rect class="dg-ledger" x="286" y="150" width="200" height="100"></rect>
+            <text class="dg-ledger-label" x="304" y="180">SHARED LEDGER</text>
+            <line class="dg-entry" x1="304" y1="202" x2="468" y2="202"></line>
+            <line class="dg-entry" x1="304" y1="218" x2="428" y2="218"></line>
+            <line class="dg-entry" x1="304" y1="234" x2="452" y2="234"></line>
+
+            <!-- payout -->
+            <path class="dg-line" d="M386 250 V320" style="stroke:var(--terracotta)"></path>
+            <path class="dg-out" d="M386 332 l-6 -12 h12 z"></path>
+            <text x="286" y="356" style="fill:var(--terracotta)">APPROVED PAYOUT</text>
+          </svg>
+          <p class="diagram-note">Pick a mode. One ledger, either way.</p>
+        </div>
+
+        <ol class="steps reveal">
+          <li>
+            <div>
+              <h3>Create a pool.</h3>
+              <p>Set contribution amount and cadence, who can propose a payout, how the group decides, and where money can go.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>Pick a governance mode.</h3>
+              <p>Voting: payouts release when the group approves them. Rotating: the pool pays each member in turn on a fixed schedule. Manager: a designated admin approves releases within the group's rules.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>Fund it.</h3>
+              <p>Members link a bank account and contribute on schedule. Pooled balances sit at a regulated U.S. partner bank. Village runs the ledger and never holds member funds.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>Move money by the rules.</h3>
+              <p>An approved vote, a rotation turn, or a manager approval releases funds to the approved recipient: a member, a vendor, a nonprofit, or any destination the group named. Every contribution, vote, and payout is recorded and visible to every member.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- What's next -->
+  <section id="whats-next" class="band next">
+    <div class="shell">
+      <h2 class="reveal">What's next</h2>
+      <div class="next__list reveal">
+        <div class="next__item">
+          <p class="next__label">Pilot cohorts</p>
+          <p>We're onboarding our first groups with community organizations. Want in early? Reach out below.</p>
+        </div>
+        <div class="next__item">
+          <p class="next__label">Organization accounts</p>
+          <p>Tools for giving circles, faith communities, employers, and professional groups to run pools for their members. Organizations get reporting, and zero control over member funds.</p>
+        </div>
+        <div class="next__item">
+          <p class="next__label">Governance tooling</p>
+          <p>Rule templates, receipts, and reporting so any group can show exactly where its money went.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="band contact">
+    <div class="shell contact__grid">
+      <div class="reveal">
+        <h2>Get in touch</h2>
+        
+        <p class="contact__mail"><a href="mailto:hector.miranda@yale.edu">hector.miranda@yale.edu</a></p>
+      </div>
+
+      <div class="reveal">
+        <form
+          id="contact-form"
+          name="village-contact"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          action="/thanks"
+        >
+          <input type="hidden" name="form-name" value="village-contact">
+          <p class="hp"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+          <label class="field">
+            <span>Name</span>
+            <input type="text" name="name" required autocomplete="name">
+          </label>
+
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" required autocomplete="email">
+          </label>
+
+          <label class="field">
+            <span>I am a</span>
+            <select name="role" required>
+              <option value="Group organizer">Group organizer</option>
+              <option value="Community organization">Community organization</option>
+              <option value="Employer or institution">Employer or institution</option>
+              <option value="Investor">Investor</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Message (optional)</span>
+            <textarea name="message"></textarea>
+          </label>
+
+          <button class="btn-submit" type="submit">Send</button>
+          <p class="form-msg" id="form-msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="shell foot__inner">
+    <p>Village Finance, Corp. &copy; 2026</p>
+    <nav class="foot__links" aria-label="Footer">
+      <a href="#top">Overview</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#whats-next">What's next</a>
+      <a href="#contact">Get in touch</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* Governance toggle: radio behavior, mouse + keyboard */
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#dg .dg-row'));
+
+  function select(row, focus) {
+    rows.forEach(function (r) {
+      var on = r === row;
+      r.classList.toggle('is-on', on);
+      r.setAttribute('aria-checked', on ? 'true' : 'false');
+      r.setAttribute('tabindex', on ? '0' : '-1');
+    });
+    if (focus) row.focus();
+  }
+
+  rows.forEach(function (row, i) {
+    row.addEventListener('click', function () { select(row, false); });
+    row.addEventListener('keydown', function (e) {
+      var k = e.key;
+      if (k === ' ' || k === 'Enter') { e.preventDefault(); select(row, true); return; }
+      if (k === 'ArrowDown' || k === 'ArrowRight') { e.preventDefault(); select(rows[(i + 1) % rows.length], true); }
+      if (k === 'ArrowUp' || k === 'ArrowLeft') { e.preventDefault(); select(rows[(i - 1 + rows.length) % rows.length], true); }
+    });
+  });
+
+  /* Scroll reveal */
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var targets = document.querySelectorAll('.reveal');
+  if (reduced || !('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('is-in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-in'); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    targets.forEach(function (el) { io.observe(el); });
+  }
+
+  /* Netlify form: submit in place, show success without leaving the page */
+  var form = document.getElementById('contact-form');
+  var msg = document.getElementById('form-msg');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = form.querySelector('.btn-submit');
+    btn.disabled = true;
+    msg.removeAttribute('data-state');
+    msg.textContent = 'Sending…';
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(form)).toString()
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.status);
+        form.reset();
+        msg.textContent = "Thanks. We'll reply within a few days.";
+      })
+      .catch(function () {
+        msg.setAttribute('data-state', 'error');
+        msg.textContent = "That didn't send. Email hector.miranda@yale.edu instead.";
+      })
+      .finally(function () { btn.disabled = false; });
+  });
+})();
+</script>
+</body>
+</html>
