@@ -95,43 +95,47 @@ section[id]{scroll-margin-top:72px}
 
 /* ---------- hero ---------- */
 .hero{
-  position:relative;overflow:hidden;isolation:isolate;
-  background:var(--ink);
-  padding-block:clamp(5rem,12vw,9rem) clamp(4.5rem,10vw,8rem);
+  position:relative;overflow:hidden;
+  padding-block:clamp(3.5rem,9vw,7rem) clamp(3rem,7vw,5.5rem);
 }
-#hero-particles{position:absolute;inset:0;z-index:0}
-#hero-particles canvas{display:block}
-.hero__scrim{
-  position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:
-    linear-gradient(102deg,var(--ink) 0%,rgba(23,22,15,.88) 30%,rgba(23,22,15,.42) 60%,rgba(23,22,15,.06) 100%),
-    linear-gradient(to bottom,rgba(23,22,15,0) 58%,var(--cream) 100%);
+.hero__grid{
+  display:grid;grid-template-columns:1fr;
+  gap:clamp(1.5rem,5vw,3.5rem);align-items:center;
 }
-.hero__content{position:relative;z-index:2}
+@media (min-width:900px){
+  .hero__grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
+}
 .hero h1{
   font-size:clamp(2.65rem,1.4rem + 5.6vw,5.1rem);
   max-width:16ch;
   margin:0;
-  color:var(--cream);
 }
-.hero h1 em{font-style:italic;color:#E7A977}
+.hero h1 em{font-style:italic;color:var(--forest)}
 .hero__lede{
   margin-top:1.75rem;
   max-width:52ch;
   font-size:clamp(1.05rem,1rem + .35vw,1.25rem);
-  color:rgba(247,243,233,.82);
+  color:var(--ink-70);
 }
 .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.25rem}
 .btn{
   display:inline-block;
   font-family:var(--body);font-size:.95rem;font-weight:500;
-  text-decoration:none;border:1px solid var(--cream);
+  text-decoration:none;border:1px solid var(--forest);
   padding:.85rem 1.5rem;transition:background .18s,color .18s,transform .18s;
 }
-.btn--solid{background:var(--terracotta);border-color:var(--terracotta);color:var(--cream)}
-.btn--solid:hover{background:#A94D2A;border-color:#A94D2A}
-.btn--ghost{color:var(--cream);background:transparent;border-color:rgba(247,243,233,.55)}
-.btn--ghost:hover{background:rgba(247,243,233,.09)}
+.btn--solid{background:var(--forest);color:var(--cream)}
+.btn--solid:hover{background:#152F25}
+.btn--ghost{color:var(--forest);background:transparent}
+.btn--ghost:hover{background:rgba(30,65,51,.07)}
+
+.hero__viz{
+  position:relative;
+  height:clamp(320px,44vw,540px);
+}
+#hero-graph{position:absolute;inset:0}
+.hero-graph__inner{position:absolute;inset:0;touch-action:pan-y}
+.hero-graph__inner canvas{display:block}
 
 /* ---------- intro ---------- */
 .intro{padding-block:clamp(3.5rem,8vw,6rem)}
@@ -286,14 +290,17 @@ section[id]{scroll-margin-top:72px}
 
   <!-- Hero -->
   <section id="top" class="hero">
-    <div id="hero-particles" aria-hidden="true"></div>
-    <div class="hero__scrim" aria-hidden="true"></div>
-    <div class="shell hero__content">
-      <h1>Your group's money, run by <em>your group's rules.</em></h1>
-      <p class="hero__lede">A shared pool with built-in governance. Members fund it, the group sets the rules, and money moves only when the rules say so: to a member, a vendor, or any cause the group picks.</p>
-      <div class="actions">
-        <a class="btn btn--solid" href="#contact">Get early access</a>
-        <a class="btn btn--ghost" href="#how-it-works">See how it works</a>
+    <div class="shell hero__grid">
+      <div class="hero__copy">
+        <h1>Your group's money, run by <em>your group's rules.</em></h1>
+        <p class="hero__lede">A shared pool with built-in governance. Members fund it, the group sets the rules, and money moves only when the rules say so: to a member, a vendor, or any cause the group picks.</p>
+        <div class="actions">
+          <a class="btn btn--solid" href="#contact">Get early access</a>
+          <a class="btn btn--ghost" href="#how-it-works">See how it works</a>
+        </div>
+      </div>
+      <div class="hero__viz" aria-hidden="true">
+        <div id="hero-graph"></div>
       </div>
     </div>
   </section>
@@ -479,46 +486,125 @@ section[id]{scroll-margin-top:72px}
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@tsparticles/preset-sea-anemone@4.3.2/tsparticles.preset.seaAnemone.bundle.min.js" integrity="sha256-8S1NhbajY42KE5tdrsnoS7wM4G6cIyL2kxST9D0sLlQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js" integrity="sha256-2Unxw2h67a3O2shSYYZfKbF80nOZfn9rK/xTsvnUxN0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha256-NfT5dPSyvNRNpzljNH+JUuNB+DkJ5EmCJ9Tia5j2bw0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-force-graph-2d@1.29.1/dist/react-force-graph-2d.min.js" integrity="sha256-CHkZ+25QlaUOJe4n9Oqem2nrNfcDgQfJ69lvwmptnUI=" crossorigin="anonymous"></script>
 <script>
 (function () {
-  /* Hero: sea-anemone particles (tsParticles preset), retuned to ink + terracotta */
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce || !window.tsParticles || typeof window.loadSeaAnemonePreset !== 'function') return;
+  /* Hero: interactive force-directed network — a shared ledger, pool hubs, member nodes */
+  var mount = document.getElementById('hero-graph');
+  if (!mount || !window.React || !window.ReactDOM || !window.ForceGraph2D) return;
 
-  (async function () {
-    await loadSeaAnemonePreset(tsParticles);
-    await tsParticles.load({
-      id: 'hero-particles',
-      options: {
-        preset: 'seaAnemone',
-        fullScreen: { enable: false },
-        fpsLimit: 60,
-        background: { color: '#17160F' },
-        particles: { color: { value: '#BE5A33' } },
-        trail: { enable: true, length: 30, fill: { color: '#17160F' } },
-        emitters: [
-          {
-            direction: 'none',
-            position: { x: 74, y: 40 },
-            rate: { quantity: 10, delay: 0.3 },
-            size: { width: 0, height: 0, mode: 'precise' },
-            spawn: {
-              fill: {
-                color: {
-                  value: '#C6603A',
-                  animation: {
-                    h: { enable: false },
-                    l: { enable: true, offset: { min: 44, max: 84 }, speed: 0, sync: false }
-                  }
-                }
-              }
-            }
-          }
-        ]
+  var h = React.createElement;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var FOREST = '#2A5343', TERRA = '#BE5A33', INK = '#17160F';
+
+  function idOf(x) { return (x && typeof x === 'object') ? x.id : x; }
+
+  function makeGraph() {
+    var nodes = [{ id: 'ledger', color: INK, val: 7 }];
+    var links = [];
+    for (var p = 0; p < 3; p++) {
+      var hub = 'pool-' + p;
+      nodes.push({ id: hub, color: TERRA, val: 4.2 });
+      links.push({ source: 'ledger', target: hub, main: true });
+      var members = 7 + Math.floor(Math.random() * 5);
+      for (var m = 0; m < members; m++) {
+        var mid = hub + '-m' + m;
+        nodes.push({ id: mid, color: FOREST, val: 1.3 });
+        links.push({ source: hub, target: mid });
+        if (m > 0 && Math.random() < 0.12) links.push({ source: mid, target: hub + '-m' + (m - 1) });
       }
-    });
-  })();
+    }
+    return { nodes: nodes, links: links };
+  }
+
+  function HeroGraph() {
+    var wrapRef = React.useRef(null);
+    var fgRef = React.useRef(null);
+    var dataRef = React.useRef(null);
+    if (!dataRef.current) dataRef.current = makeGraph();
+    var data = dataRef.current;
+
+    var s = React.useState({ w: 0, h: 0 }); var size = s[0], setSize = s[1];
+    var hv = React.useState(null); var hoverId = hv[0], setHoverId = hv[1];
+
+    var adj = React.useMemo(function () {
+      var map = {};
+      data.links.forEach(function (l) {
+        var a = idOf(l.source), b = idOf(l.target);
+        (map[a] = map[a] || {})[b] = 1; (map[b] = map[b] || {})[a] = 1;
+      });
+      return map;
+    }, [data]);
+
+    React.useEffect(function () {
+      var el = wrapRef.current; if (!el || !window.ResizeObserver) return;
+      var ro = new ResizeObserver(function (es) {
+        var r = es[0].contentRect;
+        setSize({ w: Math.max(1, Math.floor(r.width)), h: Math.max(1, Math.floor(r.height)) });
+      });
+      ro.observe(el);
+      return function () { ro.disconnect(); };
+    }, []);
+
+    var onFg = React.useCallback(function (fg) {
+      fgRef.current = fg;
+      if (!fg) return;
+      try {
+        fg.d3Force('charge').strength(-95);
+        var lf = fg.d3Force('link'); if (lf) lf.distance(function (l) { return l.main ? 68 : 26; });
+      } catch (e) {}
+    }, []);
+
+    function fit() { var fg = fgRef.current; if (fg) { try { fg.zoomToFit(500, 36); } catch (e) {} } }
+
+    var linkColor = React.useCallback(function (l) {
+      if (hoverId) {
+        var a = idOf(l.source), b = idOf(l.target);
+        return (a === hoverId || b === hoverId) ? 'rgba(190,90,51,.95)' : 'rgba(23,22,15,.05)';
+      }
+      return l.main ? 'rgba(23,22,15,.24)' : 'rgba(23,22,15,.12)';
+    }, [hoverId]);
+
+    var linkWidth = React.useCallback(function (l) {
+      if (hoverId) { var a = idOf(l.source), b = idOf(l.target); return (a === hoverId || b === hoverId) ? 1.8 : 0.5; }
+      return l.main ? 1.5 : 0.8;
+    }, [hoverId]);
+
+    var nodeColor = React.useCallback(function (n) {
+      if (hoverId) {
+        if (n.id === hoverId || (adj[hoverId] && adj[hoverId][n.id])) return TERRA;
+        return 'rgba(42,83,67,.28)';
+      }
+      return n.color;
+    }, [hoverId, adj]);
+
+    return h('div', { ref: wrapRef, className: 'hero-graph__inner' },
+      size.w > 1 ? h(ForceGraph2D, {
+        ref: onFg,
+        width: size.w, height: size.h,
+        graphData: data,
+        backgroundColor: 'rgba(0,0,0,0)',
+        nodeRelSize: 4,
+        nodeVal: function (n) { return n.val; },
+        nodeColor: nodeColor,
+        nodeLabel: function () { return ''; },
+        linkColor: linkColor,
+        linkWidth: linkWidth,
+        enableZoomInteraction: false,
+        enablePanInteraction: false,
+        enableNodeDrag: true,
+        onNodeHover: function (n) { setHoverId(n ? n.id : null); if (wrapRef.current) wrapRef.current.style.cursor = n ? 'grab' : 'default'; },
+        onEngineStop: fit,
+        warmupTicks: reduceMotion ? 90 : 0,
+        cooldownTime: reduceMotion ? 0 : 4500,
+        d3VelocityDecay: 0.28
+      }) : null
+    );
+  }
+
+  ReactDOM.createRoot(mount).render(h(HeroGraph));
 })();
 </script>
 <script>
