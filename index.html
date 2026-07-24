@@ -58,19 +58,10 @@ a{color:inherit}
 .band{padding-block:var(--section-y)}
 .rule{border:0;border-top:1px solid var(--rule);margin:0}
 
-.eyebrow{
-  font-family:var(--mono);
-  font-size:.7rem;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--ink-45);
-  margin:0;
-}
-
 .skip{
   position:absolute;left:-9999px;top:0;
   background:var(--forest);color:var(--cream);
-  padding:.75rem 1rem;font-family:var(--mono);font-size:.8rem;z-index:99;
+  padding:.75rem 1rem;font-family:var(--body);font-size:.85rem;z-index:99;
 }
 .skip:focus{left:0}
 
@@ -92,7 +83,7 @@ a{color:inherit}
 }
 .nav{display:flex;gap:clamp(1rem,2.4vw,2.25rem);align-items:center}
 .nav a{
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+  font-family:var(--body);font-size:.95rem;font-weight:500;
   color:var(--ink-70);text-decoration:none;padding-block:.4rem;
   border-bottom:1px solid transparent;transition:color .18s,border-color .18s;
 }
@@ -119,9 +110,9 @@ section[id]{scroll-margin-top:72px}
 .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.25rem}
 .btn{
   display:inline-block;
-  font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  font-family:var(--body);font-size:.95rem;font-weight:500;
   text-decoration:none;border:1px solid var(--forest);
-  padding:.95rem 1.6rem;transition:background .18s,color .18s,transform .18s;
+  padding:.85rem 1.5rem;transition:background .18s,color .18s,transform .18s;
 }
 .btn--solid{background:var(--forest);color:var(--cream)}
 .btn--solid:hover{background:#152F25}
@@ -176,7 +167,7 @@ section[id]{scroll-margin-top:72px}
 .diagram .dg-ledger-label{fill:var(--forest);font-weight:500}
 .diagram .dg-out{fill:var(--terracotta)}
 .diagram-note{
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  font-family:var(--body);font-size:.9rem;
   color:var(--ink-45);margin-top:1rem;
 }
 
@@ -205,7 +196,7 @@ section[id]{scroll-margin-top:72px}
   .next__item{grid-template-columns:14rem 1fr;align-items:baseline}
 }
 .next__label{
-  font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  font-family:var(--body);font-size:1rem;font-weight:500;
   color:var(--forest);
 }
 .next__item p{color:var(--ink-70);max-width:62ch}
@@ -214,14 +205,14 @@ section[id]{scroll-margin-top:72px}
 .contact{background:var(--cream-2);border-block:1px solid var(--rule)}
 .contact__grid{display:grid;gap:clamp(2.5rem,5vw,4.5rem);grid-template-columns:1fr}
 @media (min-width:880px){.contact__grid{grid-template-columns:minmax(0,.85fr) minmax(0,1fr)}}
-.contact__mail{margin-top:1.75rem;font-family:var(--mono);font-size:.85rem}
+.contact__mail{margin-top:1.75rem;font-family:var(--body);font-size:1.05rem}
 .contact__mail a{color:var(--forest);text-underline-offset:4px}
 
 .field{display:block;margin-bottom:1.5rem}
 .field span{
   display:block;
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink-45);margin-bottom:.5rem;
+  font-family:var(--body);font-size:.9rem;font-weight:500;
+  color:var(--ink-70);margin-bottom:.5rem;
 }
 .field input,.field select,.field textarea{
   width:100%;font-family:var(--body);font-size:1rem;color:var(--ink);
@@ -233,14 +224,14 @@ section[id]{scroll-margin-top:72px}
 .field select{appearance:none;background-image:none}
 .hp{position:absolute;left:-9999px}
 .btn-submit{
-  font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  font-family:var(--body);font-size:.95rem;font-weight:500;
   background:var(--forest);color:var(--cream);border:1px solid var(--forest);
-  padding:.95rem 2.2rem;cursor:pointer;transition:background .18s;
+  padding:.85rem 2rem;cursor:pointer;transition:background .18s;
 }
 .btn-submit:hover{background:#152F25}
 .btn-submit[disabled]{opacity:.55;cursor:progress}
 .form-msg{
-  margin-top:1.25rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;
+  margin-top:1.25rem;font-family:var(--body);font-size:.95rem;
   color:var(--forest);
 }
 .form-msg[data-state="error"]{color:var(--terracotta)}
@@ -249,7 +240,7 @@ section[id]{scroll-margin-top:72px}
 .foot{padding-block:2.5rem}
 .foot__inner{
   display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;justify-content:space-between;
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  font-family:var(--body);font-size:.9rem;
   color:var(--ink-45);
 }
 .foot__links{display:flex;flex-wrap:wrap;gap:1.25rem}
@@ -285,7 +276,6 @@ section[id]{scroll-margin-top:72px}
   <!-- Hero -->
   <section id="top" class="hero">
     <div class="shell">
-      <p class="eyebrow">Governed group-money infrastructure</p>
       <h1>Your group's money, run by <em>your group's rules.</em></h1>
       <p class="hero__lede">A shared pool with built-in governance. Members fund it, the group sets the rules, and money moves only when the rules say so: to a member, a vendor, or any cause the group picks.</p>
       <div class="actions">
