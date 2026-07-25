@@ -99,13 +99,6 @@ section[id]{scroll-margin-top:72px}
   position:relative;overflow:hidden;
   padding-block:clamp(3.5rem,9vw,7rem) clamp(3rem,7vw,5.5rem);
 }
-.hero__grid{
-  display:grid;grid-template-columns:1fr;
-  gap:clamp(1.5rem,5vw,3.5rem);align-items:center;
-}
-@media (min-width:900px){
-  .hero__grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
-}
 .hero h1{
   font-size:clamp(2.65rem,1.4rem + 5.6vw,5.1rem);
   max-width:16ch;
@@ -129,14 +122,6 @@ section[id]{scroll-margin-top:72px}
 .btn--solid:hover{background:#A83F13;border-color:#A83F13}
 .btn--ghost{color:var(--paper);background:transparent;border-color:var(--paper)}
 .btn--ghost:hover{background:rgba(242,242,242,.12)}
-
-.hero__viz{
-  position:relative;
-  height:clamp(320px,44vw,540px);
-}
-#hero-graph{position:absolute;inset:0}
-.hero-graph__inner{position:absolute;inset:0;touch-action:pan-y}
-.hero-graph__inner canvas{display:block}
 
 /* ---------- intro ---------- */
 .intro{padding-block:clamp(3.5rem,8vw,6rem)}
@@ -299,9 +284,6 @@ section[id]{scroll-margin-top:72px}
           <a class="btn btn--solid" href="#contact">Get early access</a>
           <a class="btn btn--ghost" href="#how-it-works">See how it works</a>
         </div>
-      </div>
-      <div class="hero__viz" aria-hidden="true">
-        <div id="hero-graph"></div>
       </div>
     </div>
   </section>
@@ -487,127 +469,6 @@ section[id]{scroll-margin-top:72px}
   </div>
 </footer>
 
-<script src="/vendor/react.production.min.js"></script>
-<script src="/vendor/react-dom.production.min.js"></script>
-<script src="/vendor/react-force-graph-2d.min.js"></script>
-<script>
-(function () {
-  /* Hero: interactive force-directed network — a shared ledger, pool hubs, member nodes */
-  var mount = document.getElementById('hero-graph');
-  if (!mount || !window.React || !window.ReactDOM || !window.ForceGraph2D) return;
-
-  var h = React.createElement;
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var FOREST = '#14352A', TERRA = '#C24E1E', INK = '#123027';
-
-  function idOf(x) { return (x && typeof x === 'object') ? x.id : x; }
-
-  function makeGraph() {
-    var nodes = [{ id: 'ledger', color: INK, val: 7 }];
-    var links = [];
-    for (var p = 0; p < 3; p++) {
-      var hub = 'pool-' + p;
-      nodes.push({ id: hub, color: TERRA, val: 4.2 });
-      links.push({ source: 'ledger', target: hub, main: true });
-      var members = 7 + Math.floor(Math.random() * 5);
-      for (var m = 0; m < members; m++) {
-        var mid = hub + '-m' + m;
-        nodes.push({ id: mid, color: FOREST, val: 1.3 });
-        links.push({ source: hub, target: mid });
-        if (m > 0 && Math.random() < 0.12) links.push({ source: mid, target: hub + '-m' + (m - 1) });
-      }
-    }
-    return { nodes: nodes, links: links };
-  }
-
-  function HeroGraph() {
-    var wrapRef = React.useRef(null);
-    var fgRef = React.useRef(null);
-    var dataRef = React.useRef(null);
-    if (!dataRef.current) dataRef.current = makeGraph();
-    var data = dataRef.current;
-
-    var s = React.useState({ w: 0, h: 0 }); var size = s[0], setSize = s[1];
-    var hv = React.useState(null); var hoverId = hv[0], setHoverId = hv[1];
-
-    var adj = React.useMemo(function () {
-      var map = {};
-      data.links.forEach(function (l) {
-        var a = idOf(l.source), b = idOf(l.target);
-        (map[a] = map[a] || {})[b] = 1; (map[b] = map[b] || {})[a] = 1;
-      });
-      return map;
-    }, [data]);
-
-    React.useEffect(function () {
-      var el = wrapRef.current; if (!el || !window.ResizeObserver) return;
-      var ro = new ResizeObserver(function (es) {
-        var r = es[0].contentRect;
-        setSize({ w: Math.max(1, Math.floor(r.width)), h: Math.max(1, Math.floor(r.height)) });
-      });
-      ro.observe(el);
-      return function () { ro.disconnect(); };
-    }, []);
-
-    var onFg = React.useCallback(function (fg) {
-      fgRef.current = fg;
-      if (!fg) return;
-      try {
-        fg.d3Force('charge').strength(-95);
-        var lf = fg.d3Force('link'); if (lf) lf.distance(function (l) { return l.main ? 68 : 26; });
-      } catch (e) {}
-    }, []);
-
-    function fit() { var fg = fgRef.current; if (fg) { try { fg.zoomToFit(500, 36); } catch (e) {} } }
-
-    var linkColor = React.useCallback(function (l) {
-      if (hoverId) {
-        var a = idOf(l.source), b = idOf(l.target);
-        return (a === hoverId || b === hoverId) ? 'rgba(194,78,30,.95)' : 'rgba(242,242,242,.08)';
-      }
-      return l.main ? 'rgba(242,242,242,.34)' : 'rgba(242,242,242,.18)';
-    }, [hoverId]);
-
-    var linkWidth = React.useCallback(function (l) {
-      if (hoverId) { var a = idOf(l.source), b = idOf(l.target); return (a === hoverId || b === hoverId) ? 1.8 : 0.5; }
-      return l.main ? 1.5 : 0.8;
-    }, [hoverId]);
-
-    var nodeColor = React.useCallback(function (n) {
-      if (hoverId) {
-        if (n.id === hoverId || (adj[hoverId] && adj[hoverId][n.id])) return TERRA;
-        return 'rgba(242,242,242,.22)';
-      }
-      return n.color;
-    }, [hoverId, adj]);
-
-    return h('div', { ref: wrapRef, className: 'hero-graph__inner' },
-      size.w > 1 ? h(ForceGraph2D, {
-        ref: onFg,
-        width: size.w, height: size.h,
-        graphData: data,
-        backgroundColor: 'rgba(0,0,0,0)',
-        nodeRelSize: 4,
-        nodeVal: function (n) { return n.val; },
-        nodeColor: nodeColor,
-        nodeLabel: function () { return ''; },
-        linkColor: linkColor,
-        linkWidth: linkWidth,
-        enableZoomInteraction: false,
-        enablePanInteraction: false,
-        enableNodeDrag: true,
-        onNodeHover: function (n) { setHoverId(n ? n.id : null); if (wrapRef.current) wrapRef.current.style.cursor = n ? 'grab' : 'default'; },
-        onEngineStop: fit,
-        warmupTicks: reduceMotion ? 90 : 0,
-        cooldownTime: reduceMotion ? 0 : 4500,
-        d3VelocityDecay: 0.28
-      }) : null
-    );
-  }
-
-  ReactDOM.createRoot(mount).render(h(HeroGraph));
-})();
-</script>
 <script>
 (function () {
   /* Governance toggle: radio behavior, mouse + keyboard */
