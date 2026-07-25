@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Village | Governed group-money infrastructure</title>
 <meta name="description" content="Pool money with your group, set the rules, and move funds only when the rules say so. Shared balances with built-in governance for self-organized groups.">
-<meta name="theme-color" content="#F7F3E9">
+<meta name="theme-color" content="#7BA07D">
 <link rel="canonical" href="https://villagefinance.netlify.app/">
 
 <meta property="og:type" content="website">
@@ -20,14 +20,15 @@
 
 <style>
 :root{
-  --cream:#F7F3E9;
-  --cream-2:#F1EADA;
-  --ink:#17160F;
-  --ink-70:#4C4A3F;
-  --ink-45:#7D7A6C;
-  --rule:#DDD5C2;
-  --forest:#1E4133;
-  --terracotta:#BE5A33;
+  --cream:#7BA07D;
+  --cream-2:#6E9270;
+  --paper:#FFFFFF;
+  --ink:#FFFFFF;
+  --ink-70:rgba(255,255,255,.82);
+  --ink-45:rgba(255,255,255,.60);
+  --rule:rgba(255,255,255,.26);
+  --forest:#15352A;
+  --terracotta:#C24E1E;
 
   --display:"Playfair Display",Georgia,serif;
   --body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -60,7 +61,7 @@ a{color:inherit}
 
 .skip{
   position:absolute;left:-9999px;top:0;
-  background:var(--forest);color:var(--cream);
+  background:var(--forest);color:var(--paper);
   padding:.75rem 1rem;font-family:var(--body);font-size:.85rem;z-index:99;
 }
 .skip:focus{left:0}
@@ -87,8 +88,8 @@ a{color:inherit}
   color:var(--ink-70);text-decoration:none;padding-block:.4rem;
   border-bottom:1px solid transparent;transition:color .18s,border-color .18s;
 }
-.nav a:hover{color:var(--forest);border-bottom-color:var(--terracotta)}
-.nav__contact{color:var(--forest) !important}
+.nav a:hover{color:var(--paper);border-bottom-color:var(--terracotta)}
+.nav__contact{color:var(--terracotta) !important}
 @media (max-width:640px){.nav a:not(.nav__contact){display:none}}
 
 section[id]{scroll-margin-top:72px}
@@ -110,7 +111,7 @@ section[id]{scroll-margin-top:72px}
   max-width:16ch;
   margin:0;
 }
-.hero h1 em{font-style:italic;color:var(--forest)}
+.hero h1 em{font-style:italic;color:var(--terracotta)}
 .hero__lede{
   margin-top:1.75rem;
   max-width:52ch;
@@ -124,10 +125,10 @@ section[id]{scroll-margin-top:72px}
   text-decoration:none;border:1px solid var(--forest);
   padding:.85rem 1.5rem;transition:background .18s,color .18s,transform .18s;
 }
-.btn--solid{background:var(--forest);color:var(--cream)}
-.btn--solid:hover{background:#152F25}
-.btn--ghost{color:var(--forest);background:transparent}
-.btn--ghost:hover{background:rgba(30,65,51,.07)}
+.btn--solid{background:var(--terracotta);color:var(--paper);border-color:var(--terracotta)}
+.btn--solid:hover{background:#A83F13;border-color:#A83F13}
+.btn--ghost{color:var(--paper);background:transparent;border-color:var(--paper)}
+.btn--ghost:hover{background:rgba(255,255,255,.12)}
 
 .hero__viz{
   position:relative;
@@ -167,19 +168,19 @@ section[id]{scroll-margin-top:72px}
 .diagram text{font-family:var(--mono);fill:var(--ink-45);letter-spacing:.1em;font-size:11px}
 .diagram .dg-line{fill:none;stroke:var(--rule);stroke-width:1.25}
 .diagram .dg-track{fill:none;stroke:var(--rule);stroke-width:1.25}
-.diagram .dg-knob{fill:var(--cream);stroke:var(--rule);stroke-width:1.25}
+.diagram .dg-knob{fill:var(--paper);stroke:var(--rule);stroke-width:1.25}
 .diagram .dg-row{cursor:pointer}
 .diagram .dg-row .dg-hit{fill:transparent}
 .diagram .dg-row:hover text{fill:var(--ink-70)}
-.diagram .dg-row.is-on text{fill:var(--forest)}
+.diagram .dg-row.is-on text{fill:var(--terracotta)}
 .diagram .dg-row.is-on .dg-line,
-.diagram .dg-row.is-on .dg-track{stroke:var(--forest)}
+.diagram .dg-row.is-on .dg-track{stroke:var(--terracotta)}
 .diagram .dg-row.is-on .dg-knob{fill:var(--terracotta);stroke:var(--terracotta)}
 .diagram .dg-row.is-on .dg-knob{transform:translateX(22px)}
 .diagram .dg-knob{transition:transform .22s ease,fill .22s,stroke .22s}
-.diagram .dg-ledger{fill:none;stroke:var(--forest);stroke-width:1.25}
+.diagram .dg-ledger{fill:none;stroke:var(--paper);stroke-width:1.25}
 .diagram .dg-entry{stroke:var(--rule);stroke-width:1.25}
-.diagram .dg-ledger-label{fill:var(--forest);font-weight:500}
+.diagram .dg-ledger-label{fill:var(--paper);font-weight:500}
 .diagram .dg-out{fill:var(--terracotta)}
 .diagram-note{
   font-family:var(--body);font-size:.9rem;
@@ -212,7 +213,7 @@ section[id]{scroll-margin-top:72px}
 }
 .next__label{
   font-family:var(--body);font-size:1rem;font-weight:500;
-  color:var(--forest);
+  color:var(--paper);
 }
 .next__item p{color:var(--ink-70);max-width:62ch}
 
@@ -221,7 +222,7 @@ section[id]{scroll-margin-top:72px}
 .contact__grid{display:grid;gap:clamp(2.5rem,5vw,4.5rem);grid-template-columns:1fr}
 @media (min-width:880px){.contact__grid{grid-template-columns:minmax(0,.85fr) minmax(0,1fr)}}
 .contact__mail{margin-top:1.75rem;font-family:var(--body);font-size:1.05rem}
-.contact__mail a{color:var(--forest);text-underline-offset:4px}
+.contact__mail a{color:var(--terracotta);text-underline-offset:4px}
 
 .field{display:block;margin-bottom:1.5rem}
 .field span{
@@ -231,23 +232,23 @@ section[id]{scroll-margin-top:72px}
 }
 .field input,.field select,.field textarea{
   width:100%;font-family:var(--body);font-size:1rem;color:var(--ink);
-  background:var(--cream);border:1px solid var(--rule);border-radius:0;
+  background:rgba(255,255,255,.10);border:1px solid var(--rule);border-radius:0;
   padding:.85rem .95rem;transition:border-color .18s;
 }
 .field textarea{min-height:7rem;resize:vertical}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--forest)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--terracotta)}
 .field select{appearance:none;background-image:none}
 .hp{position:absolute;left:-9999px}
 .btn-submit{
   font-family:var(--body);font-size:.95rem;font-weight:500;
-  background:var(--forest);color:var(--cream);border:1px solid var(--forest);
+  background:var(--terracotta);color:var(--paper);border:1px solid var(--terracotta);
   padding:.85rem 2rem;cursor:pointer;transition:background .18s;
 }
-.btn-submit:hover{background:#152F25}
+.btn-submit:hover{background:#A83F13}
 .btn-submit[disabled]{opacity:.55;cursor:progress}
 .form-msg{
   margin-top:1.25rem;font-family:var(--body);font-size:.95rem;
-  color:var(--forest);
+  color:var(--paper);
 }
 .form-msg[data-state="error"]{color:var(--terracotta)}
 
@@ -260,7 +261,7 @@ section[id]{scroll-margin-top:72px}
 }
 .foot__links{display:flex;flex-wrap:wrap;gap:1.25rem}
 .foot a{text-decoration:none;color:var(--ink-45)}
-.foot a:hover{color:var(--forest)}
+.foot a:hover{color:var(--paper)}
 
 /* ---------- motion ---------- */
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
@@ -349,7 +350,7 @@ section[id]{scroll-margin-top:72px}
             </g>
 
             <!-- junction into ledger -->
-            <path class="dg-line" d="M226 200 H286" style="stroke:var(--forest)"></path>
+            <path class="dg-line" d="M226 200 H286" style="stroke:var(--paper)"></path>
 
             <!-- ledger -->
             <rect class="dg-ledger" x="286" y="150" width="200" height="100"></rect>
@@ -497,7 +498,7 @@ section[id]{scroll-margin-top:72px}
 
   var h = React.createElement;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var FOREST = '#2A5343', TERRA = '#BE5A33', INK = '#17160F';
+  var FOREST = '#14352A', TERRA = '#C24E1E', INK = '#123027';
 
   function idOf(x) { return (x && typeof x === 'object') ? x.id : x; }
 
@@ -562,9 +563,9 @@ section[id]{scroll-margin-top:72px}
     var linkColor = React.useCallback(function (l) {
       if (hoverId) {
         var a = idOf(l.source), b = idOf(l.target);
-        return (a === hoverId || b === hoverId) ? 'rgba(190,90,51,.95)' : 'rgba(23,22,15,.05)';
+        return (a === hoverId || b === hoverId) ? 'rgba(194,78,30,.95)' : 'rgba(255,255,255,.08)';
       }
-      return l.main ? 'rgba(23,22,15,.24)' : 'rgba(23,22,15,.12)';
+      return l.main ? 'rgba(255,255,255,.34)' : 'rgba(255,255,255,.18)';
     }, [hoverId]);
 
     var linkWidth = React.useCallback(function (l) {
@@ -575,7 +576,7 @@ section[id]{scroll-margin-top:72px}
     var nodeColor = React.useCallback(function (n) {
       if (hoverId) {
         if (n.id === hoverId || (adj[hoverId] && adj[hoverId][n.id])) return TERRA;
-        return 'rgba(42,83,67,.28)';
+        return 'rgba(255,255,255,.22)';
       }
       return n.color;
     }, [hoverId, adj]);
