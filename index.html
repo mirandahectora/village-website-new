@@ -152,6 +152,12 @@ section[id]{scroll-margin-top:72px}
              0 24px 60px -28px rgba(11,30,22,.55),
              0 6px 18px -12px rgba(11,30,22,.4);
   overflow:hidden;
+  transform-origin:50% 50%;
+}
+/* scroll-linked 3D reveal (JS drives the exact values; this is the pre-JS state) */
+@media (prefers-reduced-motion:no-preference){
+  .mock{transform:perspective(1000px) rotateX(16deg) scale(1.04);will-change:transform}
+  .hero__copy{will-change:transform}
 }
 .mock__bar{
   display:flex;align-items:center;gap:.9rem;
@@ -675,6 +681,29 @@ section[id]{scroll-margin-top:72px}
       });
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
     targets.forEach(function (el) { io.observe(el); });
+  }
+
+  /* Hero mockup: scroll-linked 3D reveal — rotateX 20->0, scale 1.05->1, header parallax */
+  var mock = document.querySelector('.mock');
+  var heroCopy = document.querySelector('.hero__copy');
+  if (mock && !reduced) {
+    var tiltPending = false;
+    var applyTilt = function () {
+      tiltPending = false;
+      var rect = mock.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var start = vh * 0.92, end = vh * 0.32;
+      var p = (start - rect.top) / (start - end);
+      p = p < 0 ? 0 : (p > 1 ? 1 : p);
+      var rotate = 20 * (1 - p);
+      var scale = 1.05 - 0.05 * p;
+      mock.style.transform = 'perspective(1000px) rotateX(' + rotate.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
+      if (heroCopy) heroCopy.style.transform = 'translateY(' + (-40 * p).toFixed(1) + 'px)';
+    };
+    var onTilt = function () { if (!tiltPending) { tiltPending = true; requestAnimationFrame(applyTilt); } };
+    window.addEventListener('scroll', onTilt, { passive: true });
+    window.addEventListener('resize', onTilt);
+    applyTilt();
   }
 
   /* Netlify form: submit in place, show success without leaving the page */
