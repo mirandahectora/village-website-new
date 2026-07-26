@@ -180,6 +180,24 @@ section[id]{scroll-margin-top:72px}
 }
 .mock__pill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--terracotta)}
 .mock__body{padding:clamp(1.15rem,3vw,1.75rem);display:grid;gap:1.35rem}
+.mock__main{display:grid;gap:1.35rem;align-content:start}
+@media (min-width:760px){
+  .mock__body{grid-template-columns:1.55fr 1fr;gap:clamp(1.5rem,3vw,2.5rem);align-items:start}
+}
+
+/* decisions column (right side of hero mockup) */
+.mock__decisions ul{list-style:none;margin:.85rem 0 0;padding:0;display:grid;gap:.9rem}
+.mock__dec{display:flex;align-items:flex-start;justify-content:space-between;gap:.85rem}
+.mock__dec-info{display:flex;flex-direction:column;gap:.15rem}
+.mock__dec-name{font-family:var(--body);font-size:.9rem;font-weight:500;color:rgba(21,53,42,.85)}
+.mock__dec-meta{font-family:var(--body);font-size:.78rem;color:rgba(21,53,42,.5)}
+.mock__status.is-pending{color:var(--terracotta);background:rgba(194,78,30,.12)}
+@media (min-width:760px){
+  .mock__decisions{border-left:1px solid rgba(21,53,42,.1);padding-left:clamp(1.25rem,2.5vw,1.75rem)}
+}
+@media (max-width:759px){
+  .mock__decisions{border-top:1px solid rgba(21,53,42,.1);padding-top:1.2rem}
+}
 
 .mock__balance{
   display:grid;grid-template-columns:1fr auto;align-items:end;
@@ -257,11 +275,8 @@ section[id]{scroll-margin-top:72px}
 .intro{padding-block:clamp(3.5rem,8vw,6rem)}
 .intro__text{
   color:var(--ink-70);
-  max-width:80ch;
+  max-width:68ch;
   font-size:clamp(1.05rem,1rem + .3vw,1.2rem);
-}
-@media (min-width:900px){
-  .intro__text{columns:2;column-gap:3.5rem}
 }
 
 /* ---------- how it works ---------- */
@@ -418,40 +433,69 @@ section[id]{scroll-margin-top:72px}
           <span class="mock__pill">Rules active</span>
         </div>
         <div class="mock__body">
-          <div class="mock__balance">
-            <div>
-              <p class="mock__label">Community pool</p>
-              <p class="mock__amount">$4,200<span>.00</span></p>
+          <div class="mock__main">
+            <div class="mock__balance">
+              <div>
+                <p class="mock__label">Community pool</p>
+                <p class="mock__amount">$4,200<span>.00</span></p>
+              </div>
+              <p class="mock__delta">+$320 this week</p>
+              <svg class="mock__spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true">
+                <polyline points="0,30 20,26 40,28 60,18 80,20 100,9 120,6"></polyline>
+              </svg>
             </div>
-            <p class="mock__delta">+$320 this week</p>
-            <svg class="mock__spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true">
-              <polyline points="0,30 20,26 40,28 60,18 80,20 100,9 120,6"></polyline>
-            </svg>
+
+            <div class="mock__rule">
+              <div class="mock__rule-head">
+                <span class="mock__tag">Rule</span>
+                <span class="mock__rule-name">Payout · vendor</span>
+                <span class="mock__status">Approved</span>
+              </div>
+              <div class="mock__votes">
+                <span class="v yes">Ava</span>
+                <span class="v yes">Ben</span>
+                <span class="v yes">Cid</span>
+                <span class="v no">Dee</span>
+                <span class="mock__quorum">4 / 5 quorum</span>
+              </div>
+            </div>
+
+            <div class="mock__ledger">
+              <p class="mock__tag">Ledger</p>
+              <ul>
+                <li><span>Contribution · Ava</span><b class="pos">+$120</b></li>
+                <li><span>Vote · payout #18</span><b class="mut">—</b></li>
+                <li><span>Payout · Northwind Co.</span><b class="neg">−$540</b></li>
+              </ul>
+            </div>
           </div>
 
-          <div class="mock__rule">
-            <div class="mock__rule-head">
-              <span class="mock__tag">Rule</span>
-              <span class="mock__rule-name">Payout · vendor</span>
-              <span class="mock__status">Approved</span>
-            </div>
-            <div class="mock__votes">
-              <span class="v yes">Ava</span>
-              <span class="v yes">Ben</span>
-              <span class="v yes">Cid</span>
-              <span class="v no">Dee</span>
-              <span class="mock__quorum">4 / 5 quorum</span>
-            </div>
-          </div>
-
-          <div class="mock__ledger">
-            <p class="mock__tag">Ledger</p>
+          <aside class="mock__decisions">
+            <p class="mock__tag">Decisions</p>
             <ul>
-              <li><span>Contribution · Ava</span><b class="pos">+$120</b></li>
-              <li><span>Vote · payout #18</span><b class="mut">—</b></li>
-              <li><span>Payout · Northwind Co.</span><b class="neg">−$540</b></li>
+              <li class="mock__dec">
+                <span class="mock__dec-info">
+                  <span class="mock__dec-name">Payout · vendor</span>
+                  <span class="mock__dec-meta">Northwind Co. · $540</span>
+                </span>
+                <span class="mock__status">Approved</span>
+              </li>
+              <li class="mock__dec">
+                <span class="mock__dec-info">
+                  <span class="mock__dec-name">New member · Erin</span>
+                  <span class="mock__dec-meta">Join request</span>
+                </span>
+                <span class="mock__status is-pending">Voting</span>
+              </li>
+              <li class="mock__dec">
+                <span class="mock__dec-info">
+                  <span class="mock__dec-name">Monthly dues</span>
+                  <span class="mock__dec-meta">$40 · per member</span>
+                </span>
+                <span class="mock__status">Approved</span>
+              </li>
             </ul>
-          </div>
+          </aside>
         </div>
       </div>
     </div>
@@ -628,10 +672,6 @@ section[id]{scroll-margin-top:72px}
   <div class="shell foot__inner">
     <p>Village Finance, Corp. &copy; 2026</p>
     <nav class="foot__links" aria-label="Footer">
-      <a href="#top">Overview</a>
-      <a href="#how-it-works">How it works</a>
-      <a href="#whats-next">What's next</a>
-      <a href="#contact">Get in touch</a>
       <a href="/privacy">Privacy</a>
       <a href="/terms">Terms</a>
     </nav>
